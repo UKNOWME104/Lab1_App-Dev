@@ -1,6 +1,7 @@
-import 'package:assignment1/calculator.dart';
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
+import 'calculator.dart';
+import 'calculator_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,20 +12,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => CalculatorProvider()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Calculator',
+        theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
-          useMaterial3: false,
-          fontFamily: 'Helvetica',
-          textTheme: const TextTheme(
-            bodyLarge: TextStyle(color: Colors.white),
-            bodyMedium: TextStyle(color: Colors.white),
-            bodySmall: TextStyle(color: Colors.white),
-          ),
-          scaffoldBackgroundColor: Colors.black),
-      home: Calculator(),
+          scaffoldBackgroundColor: Colors.black,
+        ),
+        home: Calculator(),
+      ),
     );
   }
 }

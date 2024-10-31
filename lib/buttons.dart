@@ -37,29 +37,27 @@ class NumberButton extends GeneralButton {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double size = screenWidth * 0.75 / 4;
+
     return ElevatedButton(
       onPressed: onPressed,
       style: style ??
           ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFF333333),
             shape: const CircleBorder(),
-            // padding: const EdgeInsets.all(20),
             textStyle: const TextStyle(
               fontFamily: "SFNSDisplay",
               fontWeight: FontWeight.w400,
               color: Colors.white,
-              fontSize: 39,
+              fontSize: 42, // Increased font size
             ),
-            fixedSize: Size(size, size),
+            fixedSize: Size(size * 1.1, size * 1.1), // Set to 1.05
           ),
       child: Center(
         child: Align(
           alignment: alignment ?? Alignment.center,
           child: Text(
-            style: const TextStyle(
-              // height: 1.05,
-            ),
             label,
+            style: const TextStyle(color: Colors.white),
             textAlign: TextAlign.center,
           ),
         ),
@@ -83,12 +81,11 @@ class ExtraButton extends GeneralButton {
 
     return ElevatedButton(
       onPressed: onPressed,
-      style: style ??
-          ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFFA5A5A5),
-            shape: const CircleBorder(),
-            fixedSize: Size(size, size),
-          ),
+      style: style ?? ElevatedButton.styleFrom(
+        backgroundColor: const Color(0xFFA5A5A5),
+        shape: const CircleBorder(),
+        fixedSize: Size(size * 1.1, size * 1.1), // Set to 1.05
+      ),
       child: FittedBox(
         fit: BoxFit.scaleDown,
         child: Text(
@@ -97,7 +94,7 @@ class ExtraButton extends GeneralButton {
               fontFamily: "SFNSDisplay",
               color: Colors.black,
               fontWeight: FontWeight.w600,
-              fontSize: 32),
+              fontSize: 70), // Increased font size
         ),
       ),
     );
@@ -116,23 +113,24 @@ class OpButton extends GeneralButton {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double size = screenWidth * 0.75 / 4;
+
     return ElevatedButton(
       onPressed: onPressed,
-      style: style ??
-          ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFFFF9900),
-            shape: const CircleBorder(),
-            padding: const EdgeInsets.all(20),
-            textStyle: const TextStyle(
-              height: 0.89,
-              fontFamily: "SFNSDisplay",
-              fontWeight: FontWeight.w500,
-              color: Colors.white,
-              fontSize: 45,
-            ),
-            fixedSize: Size(size, size),
-          ),
-      child: Text(label),
+      style: style ?? ElevatedButton.styleFrom(
+        backgroundColor: const Color(0xFFFF9900),
+        shape: const CircleBorder(),
+        padding: const EdgeInsets.all(20),
+        textStyle: const TextStyle(
+          color: Colors.white,
+          height: 0.89,
+          fontFamily: "SFNSDisplay",
+          fontWeight: FontWeight.w500,
+          fontSize: 48, // Increased font size
+        ),
+        fixedSize: Size(size * 1.1, size * 1.1), // Set to 1.05
+      ),
+      child: Text(label,
+          style: const TextStyle(color: Colors.white)),
     );
   }
 }
