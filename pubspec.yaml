@@ -30,14 +30,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_bloc: ^8.1.6  # Latest stable version of flutter_bloc at the time
-  http: ^0.13.5
+  provider: ^6.1.2
   cupertino_icons: ^1.0.6
-  flutter_shimmer: ^2.1.1
-
+  http: ^1.2.2
+  auto_size_text: ^3.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+
 
 
   # The "flutter_lints" package below contains a set of recommended lints to
