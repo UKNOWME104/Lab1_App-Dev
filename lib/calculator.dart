@@ -11,21 +11,10 @@ class Calculator extends StatelessWidget {
     final provider = Provider.of<CalculatorProvider>(context);
     return Scaffold(
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween, // Space between for proper layout
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Added some spacing at the top to push the display area lower
           const SizedBox(height: 85), // Space above the display area
-
-          GestureDetector(
-            onHorizontalDragEnd: (details) {
-              if (details.primaryVelocity! > 0) {
-                provider.clear();
-              }
-            },
-            child: displayArea(provider),
-          ),
-
-          // Expanded section for buttons
+          displayArea(provider),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(top: 0),
@@ -37,17 +26,44 @@ class Calculator extends StatelessWidget {
     );
   }
 
-  // Display area for the answer number
-  SizedBox displayArea(CalculatorProvider provider) {
+  // Display area for history and the current number
+  Widget displayArea(CalculatorProvider provider) {
     return SizedBox(
-      height: 271,
-      child: Align(
-        alignment: Alignment.centerRight,
-        child: Text(
-          provider.display,
-          style: const TextStyle(color: Colors.white, fontSize: 90, fontWeight: FontWeight.w300 ),
-          maxLines: 1,
-        ),
+      height: 300, // Adjust the height to fit history and current display
+      child: Column(
+        children: [
+          // History area with scrollable text
+          Expanded(
+            child: SingleChildScrollView(
+              reverse: true,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: provider.history
+                    .map((entry) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 2.0),
+                  child: Text(
+                    entry,
+                    style: const TextStyle(
+                        color: Colors.grey, fontSize: 18),
+                    textAlign: TextAlign.right,
+                  ),
+                ))
+                    .toList(),
+              ),
+            ),
+          ),
+          const Divider(color: Colors.white), // Divider between history and current display
+          // Current display area
+          Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              provider.display,
+              style: const TextStyle(
+                  color: Colors.white, fontSize: 90, fontWeight: FontWeight.w300),
+              maxLines: 1,
+            ),
+          ),
+        ],
       ),
     );
   }

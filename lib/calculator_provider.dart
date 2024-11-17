@@ -15,6 +15,7 @@ class CalculatorProvider extends ChangeNotifier {
     _balance = 0.0;
     _oldOperation = "";
     _newOperation = "+";
+    _history.clear();
     notifyListeners();
   }
 
@@ -31,11 +32,10 @@ class CalculatorProvider extends ChangeNotifier {
     if (operation == "=") {
       double displayValue = double.parse(_display);
       _balance = calculate(_balance, _oldOperation, displayValue);
-      _oldOperation = "=${_oldOperation}$displayValue";
-      _newOperation = "=";
+      _oldOperation = operation;
       _display = doubleToString(_balance);
 
-      _history.add('$_balance $_oldOperation $displayValue = $_display');
+      _history.add('$displayValue $_oldOperation $_balance = $_display');
     } else {
       if (_newOperation == null) {
         _balance = calculate(_balance, _oldOperation, double.parse(_display));
