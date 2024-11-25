@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "768963722307",
+    "project_id": "app-dev-zia",
+    "storage_bucket": "app-dev-zia.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:768963722307:android:0f14f2594cef3c066268f6",
+        "android_client_info": {
+          "package_name": "com.example.authProject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_vkpGeR4QLgA0zvbJGdPnA5AveroAQc4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:768963722307:android:8be7afda837af4986268f6",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_vkpGeR4QLgA0zvbJGdPnA5AveroAQc4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
