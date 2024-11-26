@@ -1,116 +1,53 @@
 import 'package:assignment1/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-void main() {
+import 'package:google_sign_in/google_sign_in.dart';
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Auth Demo',
+      title: 'My App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
       ),
-      home: const LoginScreen(),
+      home: const MyHomePage(title: 'Home'),
     );
   }
 }
 
-class AuthScreen extends StatefulWidget {
-  const AuthScreen({super.key});
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
+  final String title;
 
   @override
-  State<AuthScreen> createState() => _AuthScreenState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _AuthScreenState extends State<AuthScreen> {
-  final _authService = AuthService();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  bool _isLogin = true;
-  String _message = '';
-
-  void _toggleMode() {
-    setState(() {
-      _isLogin = !_isLogin;
-      _message = '';
-    });
-  }
-
-  Future<void> _submit() async {
-    final email = _emailController.text.trim();
-    final password = _passwordController.text.trim();
-
-    if (email.isEmpty || password.isEmpty) {
-      setState(() {
-        _message = 'Please fill out all fields.';
-      });
-      return;
-    }
-
-    String? response;
-    if (_isLogin) {
-      response = await _authService.login(email: email, password: password);
-    } else {
-      response = await _authService.registration(email: email, password: password);
-    }
-
-    setState(() {
-      _message = response ?? 'An unknown error occurred.';
-    });
-  }
+class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(_isLogin ? 'Login' : 'Sign Up'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(labelText: 'Password'),
-              obscureText: true,
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _submit,
-              child: Text(_isLogin ? 'Login' : 'Sign Up'),
-            ),
-            TextButton(
-              onPressed: _toggleMode,
-              child: Text(
-                _isLogin ? "Don't have an account? Sign Up" : "Already have an account? Login",
-              ),
-            ),
-            if (_message.isNotEmpty) ...[
-              const SizedBox(height: 20),
-              Text(
-                _message,
-                style: const TextStyle(color: Colors.red),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ],
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          title: Text(widget.title),
         ),
-      ),
+        body: Center(
+          child: login(),
+        )
     );
   }
 }
+
+
 class AuthService {
   Future<String?> registration({
     required String email,
@@ -135,10 +72,21 @@ class AuthService {
     }
   }
 
+  Future<UserCredential> signInWithGoogle() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
   Future<String?> login({
     required String email,
     required String password,
-  }) async {
+  })
+  async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
@@ -157,4 +105,5 @@ class AuthService {
       return e.toString();
     }
   }
+
 }
